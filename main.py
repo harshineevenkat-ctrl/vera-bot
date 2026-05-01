@@ -12,7 +12,7 @@ import google.generativeai as genai
 # ── Config ──────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 app = FastAPI(title="Vera Bot", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -97,9 +97,20 @@ def detect_category(merchant_payload: Dict) -> str:
     """Detect category from merchant payload."""
     identity = merchant_payload.get("identity", {})
     cat = identity.get("category", "").lower()
+    # Check direct match first
     for key in CATEGORY_PROFILES:
         if key in cat:
             return key
+    # Check name for hints
+    name = identity.get("name", "").lower()
+    if any(w in name for w in ["dental", "dent", "doctor", "dr.", "clinic", "hospital"]):
+        return "dentist"
+    if any(w in name for w in ["salon", "spa", "beauty", "hair", "nail"]):
+        return "salon"
+    if any(w in name for w in ["gym", "fitness", "yoga", "workout"]):
+        return "gym"
+    if any(w in name for w in ["pharmacy", "medical", "chemist", "drug"]):
+        return "pharmacy"
     return "restaurant"  # default
 
 def build_compose_prompt(category: str, merchant: Dict, trigger: Dict, customer: Optional[Dict] = None) -> str:
