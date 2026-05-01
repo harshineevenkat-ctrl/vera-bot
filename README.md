@@ -38,10 +38,10 @@ The bot implements a `compose(category, merchant, trigger, customer?)` function 
 
 ```bash
 pip install -r requirements.txt
-export GEMINI_API_KEY=your_key_here
+export GROQ_API_KEY=your_key_here
 uvicorn main:app --reload
 ```
 
 ## Deployment
 
-Hosted on Render. Environment variable `GEMINI_API_KEY` set in dashboard.
+Hosted on Render. Environment variable `GROG_API_KEY` set in dashboard.
