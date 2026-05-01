@@ -44,4 +44,4 @@ uvicorn main:app --reload
 
 ## Deployment
 
-Hosted on Render. Environment variable `GROG_API_KEY` set in dashboard.
+Hosted on Render. Environment variable `GROQ_API_KEY` set in dashboard.
