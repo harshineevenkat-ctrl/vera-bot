@@ -200,10 +200,15 @@ def compose_message(category: str, merchant: Dict, trigger: Dict, customer: Opti
 
 # ── Endpoints ────────────────────────────────────────────────────────────────
 
-@app.get("/v1/healthz")
+@app.api_route("/v1/healthz", methods=["GET", "HEAD"])
 def healthz():
-    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
-
+    uptime = int((datetime.now(timezone.utc) - start_time).total_seconds())
+    return {
+        "status": "ok",
+        "uptime_seconds": uptime,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "contexts_loaded": contexts_loaded_count()
+    }
 @app.get("/v1/metadata")
 def metadata():
     return {
