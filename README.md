@@ -52,32 +52,15 @@ flowchart TD
 ---
 
 ## 🔄 Conversation State Machine
-User Reply
 
-│
-
-├── Auto-reply detected?
-
-│       ├── 1st time → Warn
-
-│       ├── 2nd time → Wait 24h
-
-│       └── 3rd time → End conversation
-
-│
-
-├── Hostile / Opt-out?
-
-│       └── Graceful exit with suppression
-
-│
-
-└── Intent = Yes/Sure/OK?
-
-└── Switch to action mode
-
-with specific deliverable
-
+| Trigger | Action |
+|---------|--------|
+| 🔁 Auto-reply (1st time) | ⚠️ Warn the user |
+| 🔁 Auto-reply (2nd time) | ⏳ Wait 24 hours |
+| 🔁 Auto-reply (3rd time) | 🚫 End conversation |
+| 😠 Hostile / Opt-out | 👋 Graceful exit with suppression |
+| ✅ Yes / Sure / OK | 🎯 Switch to action mode with specific deliverable |
+| 👤 Customer slot pick | 💬 Reply addressed to customer, not merchant |
 ---
 
 ## 🔌 API Endpoints
