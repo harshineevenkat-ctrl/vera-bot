@@ -18,77 +18,15 @@ Vera is magicpin's AI assistant for merchant growth. This bot powers the **messa
 ---
 
 ## 🏗️ System Architecture
-┌─────────────────────────────────────────┐
 
-│         Incoming Request                │
-
-│   (Merchant / Customer Context)         │
-
-└──────────────────┬──────────────────────┘
-
-│
-
-▼
-
-┌─────────────────────────────────────────┐
-
-│         POST /v1/context                │
-
-│   Store trigger + merchant state        │
-
-└──────────────────┬──────────────────────┘
-
-│
-
-▼
-
-┌─────────────────────────────────────────┐
-
-│         POST /v1/tick                   │
-
-│   Signal Selection Engine               │
-
-│   category + trigger + merchant state   │
-
-└──────────────────┬──────────────────────┘
-
-│
-
-▼
-
-┌─────────────────────────────────────────┐
-
-│      Llama 3.3 70B via Groq             │
-
-│      temperature 0.2                    │
-
-└──────────────────┬──────────────────────┘
-
-│
-
-▼
-
-┌─────────────────────────────────────────┐
-
-│         POST /v1/reply                  │
-
-│      Conversation State Machine         │
-
-└──────────────────┬──────────────────────┘
-
-│
-
-▼
-
-┌─────────────────────────────────────────┐
-
-│         Actions Array Output            │
-
-│  body + CTA + send_as + rationale       │
-
-└─────────────────────────────────────────┘
-
----
+```mermaid
+flowchart TD
+    A[📥 Incoming Request\nMerchant / Customer Context] --> B[POST /v1/context\nStore trigger + merchant state]
+    B --> C[POST /v1/tick\nSignal Selection Engine\ncategory + trigger + merchant state]
+    C --> D[🤖 Llama 3.3 70B via Groq\ntemperature 0.2]
+    D --> E[POST /v1/reply\nConversation State Machine]
+    E --> F[📤 Actions Array Output\nbody + CTA + send_as + rationale]
+```
 
 ## ✨ Key Features
 
